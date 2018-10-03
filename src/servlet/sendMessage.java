@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DBConnection;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import tools.GsonUtils;
 import tools.args;
 
 
@@ -44,13 +42,12 @@ public class sendMessage extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         JSONArray json = new JSONArray();
 		String sql1="select studentName,courseName,classtime,SignNo from Student as a,Course as b,SignIn as c where a.studentNo=c.studentNo and c.courseNo=b.courseNo and c.comfirm=false and a.studentNo="+args.username;
-		DBConnection db1=new DBConnection();int count=1;
+		DBConnection db1=new DBConnection();
 		db1.getCon();
 		db1.doPstm(sql1);
 		ResultSet rs=db1.getRs();
 		try {
 			while(rs.next()){
-				String tempmsg=rs.getString(1)+","+rs.getString(2)+","+rs.getString(3)+",考勤成功";
 				//map.put("msg"+count, tempmsg);
 				JSONObject jo = new JSONObject();
 				jo.put("studentName", rs.getString(1));
@@ -59,7 +56,6 @@ public class sendMessage extends HttpServlet {
 				jo.put("id", rs.getString(4));
 				jo.put("flag", "考勤成功");
 				json.add(jo);
-				count++;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -73,7 +69,6 @@ public class sendMessage extends HttpServlet {
 		ResultSet rs2=db2.getRs();
 		try {
 			while(rs2.next()){
-				String tempmsg=rs2.getString(1)+","+rs2.getString(2)+","+rs2.getString(3)+",缺勤";
 				//map.put("msg"+count, tempmsg);
 				JSONObject jo = new JSONObject();
 				jo.put("studentName", rs2.getString(1));
@@ -82,14 +77,13 @@ public class sendMessage extends HttpServlet {
 				jo.put("id", rs2.getString(4));
 				jo.put("flag", "缺勤");
 				json.add(jo);
-				count++;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		db2.closed();
-		String param = json.toString();//GsonUtils.toJson(map);
+		String param = json.toString();
 		System.out.println(param);
 		PrintWriter out = response.getWriter();
         out.write(param);

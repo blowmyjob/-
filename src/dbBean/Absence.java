@@ -13,7 +13,6 @@ public class Absence implements Serializable{
 	private int flag;		//是否注销
 	private String sp;			//经手人
 	private String remark;		//备注
-	
 	public Absence() {
 		super();
 		// TODO Auto-generated constructor stub

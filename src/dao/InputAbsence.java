@@ -28,8 +28,8 @@ public class InputAbsence {
 	//根据缺勤的学生学号absenceStudent，将其写进云数据库的缺勤表Absence
 	public void toDataBase(ArrayList<String> absenceStudent){
 		ArrayList<Absence> absenceList = new ArrayList<Absence>();
-		int flag=1;String remark="逃课";
-		String sql2="insert into Absence(classtime,studentNo,teacherNo,courseNo,flag,sp,remark) values(?,?,?,?,?,?,?)";
+		int flag=1;
+		String sql2="insert into Absence(classtime,studentNo,teacherNo,courseNo,flag,sp) values(?,?,?,?,?,?)";
 		for(String item: absenceStudent){
 			String sql ="select teacherNo,courseNo,monitorNo from ChooseCourse as a,Student as b,Class as c where a.studentNo=b.studentNo and b.classNo=c.classNo and a.studentNo="+item;
 			DBConnection db=new DBConnection();
@@ -44,7 +44,6 @@ public class InputAbsence {
 					temp.setCourseNo(rs.getString(2));
 					temp.setFlag(flag);
 					temp.setSp(rs.getString(3));
-					temp.setRemark(remark);
 					absenceList.add(temp);
 				}
 			} catch (SQLException e) {

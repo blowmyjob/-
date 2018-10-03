@@ -17,7 +17,7 @@ public class DBConnection {
 
 	public DBConnection() {
 		className = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://119.29.141.122:3306/kq";
+		url = "jdbc:mysql://119.29.141.122:3306/kq?characterEncoding=utf-8";
 		name = "root";
 		password = "527128";
 		try {
